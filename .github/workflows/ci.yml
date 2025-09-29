@@ -1,0 +1,42 @@
+# Nome do seu workflow, que aparecerá no GitHub
+name: CI de Pull Request
+
+# Define o evento que dispara o workflow
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+# Define os jobs que serão executados
+jobs:
+  build:
+    # Nome do job
+    name: Lint e Testes
+
+    # Ambiente de execução (a máquina virtual onde o código será executado)
+    runs-on: ubuntu-latest
+
+    # Os passos do job
+    steps:
+      # Checa o código do repositório
+      - name: Checkout do Código
+        uses: actions/checkout@v4
+
+      # Configura o ambiente Node.js
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18' # Ou a versão que seu projeto usa
+
+      # Instala as dependências do projeto
+      - name: Instalar Dependências
+        run: npm install
+
+      # Executa o linter para verificar padrões de código
+      - name: Executar Linter
+        run: npm run lint
+
+      # Executa os testes automatizados
+      - name: Executar Testes
+        run: npm test
